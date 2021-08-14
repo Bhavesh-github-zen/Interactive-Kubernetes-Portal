@@ -1,0 +1,217 @@
+<body >
+<style>
+body {
+      background-image: url('https://itsmetommy.com/wp-content/uploads/minikube-kubernetes.png');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+}
+
+.input{
+     font-weight: bold;
+     font-style: italic;
+     font-size: 20px;
+}
+
+#in1 {
+     border-radius: 25px;
+     border: 2px solid #609;
+     padding: 20px;
+     width: 600px;
+     height: 15px;
+     background: rgba(255, 255, 255);
+}
+
+div {
+     background: rgba(0, 0, 0, 0.3);
+     font-size: 18px;
+     font-family: "Lucida Console";
+     color: yellow;
+
+}
+//https://www.whitesourcesoftware.com/wp-content/media/2020/09/docker-in.jpg
+a {
+     text-decoration: none;
+     color: #0000FF;
+     font-size: 18px;
+}
+
+h1 {
+     font-size: 67px;
+     font-family: sans-serif;
+}
+
+h2 {
+     font-size: 50px;
+     font-family: sans-serif;
+}
+</style>
+
+<script>
+function ap() {
+
+var i= (document.getElementById("in1").value).toLowerCase()
+
+
+
+// Launch or create deployment
+if (((i.includes("launch"))||(i.includes("create"))||(i.includes("run")))&&((i.includes("deployment")))) {
+        //document.write("Hello");
+        var deploy_name=prompt("Enter name of deployment:")
+
+        var imgname=prompt("Enter name and/or version of image:")
+
+        var xhr1=new XMLHttpRequest();
+        xhr1.open("GET", "http://34.93.183.15/cgi-bin/webapp.py?x="+i+"&"+"y="+deploy_name+"&"+"z="+imgname,true);
+
+        xhr1.send();
+        xhr1.onload= function() {
+                var output=xhr1.responseText;
+                document.getElementById("d1").innerHTML=output;
+        }
+}
+
+// Launch or deploy pod
+else if (((i.includes("launch"))||(i.includes("run"))||(i.includes("create")))&&((i.includes("pod"))||(i.includes("pods")))) {
+        //document.write("Hello");
+        var pod_name=prompt("Enter name of pod:")
+
+        var imgname=prompt("Enter name and/or version of image:")
+
+        var xhr4=new XMLHttpRequest();
+        xhr4.open("GET", "http://34.93.183.15/cgi-bin/webapp.py?x="+i+"&"+"y="+pod_name+"&"+"z="+imgname,true);
+
+        xhr4.send();
+        xhr4.onload= function() {
+                var output=xhr4.responseText;
+                document.getElementById("d1").innerHTML=output;
+        }
+}
+
+// Delete entire environment
+else if (((i.includes("remove"))||(i.includes("delete"))||(i.includes("terminate")))&&(i.includes("environment"))){
+
+        var xhr2=new XMLHttpRequest();
+        xhr2.open("GET", "http://34.93.183.15/cgi-bin/webapp.py?x="+i,true);
+
+        xhr2.send();
+        xhr2.onload= function() {
+                var output=xhr2.responseText;
+                document.getElementById("d1").innerHTML=output;
+        }
+
+}
+
+// Delete specific resources given by user
+
+else if ((i.includes("remove"))||(i.includes("delete"))||(i.includes("terminate"))){
+        if (((i.includes("remove"))||(i.includes("delete"))||(i.includes("terminate")))&&((i.includes("po"))||(i.includes("pod"))||(i.includes("pods")))){
+                pod_name=prompt("Enter name of pod you want to delete:")
+                var xhr8=new XMLHttpRequest();
+                xhr8.open("GET", "http://34.93.183.15/cgi-bin/webapp.py?x="+i+"&"+"y="+pod_name ,true);
+
+                xhr8.send();
+                xhr8.onload= function() {
+                        var output=xhr8.responseText;
+                        document.getElementById("d1").innerHTML=output;
+                }
+        }
+        else if(((i.includes("remove"))||(i.includes("delete"))||(i.includes("terminate")))&&((i.includes("deployment"))||(i.includes("deploy")))){
+                deploy_name=prompt("Enter name of deployment you want to delete:")
+                imgname=''
+
+                var xhr9=new XMLHttpRequest();
+                xhr9.open("GET", "http://34.93.183.15/cgi-bin/webapp.py?x="+i+"&"+"y="+deploy_name+"&"+"z="+imgname ,true);
+
+                xhr9.send();
+                xhr9.onload= function() {
+                        var output=xhr9.responseText;
+                        document.getElementById("d1").innerHTML=output;
+                }
+
+        }
+        else if (((i.includes("remove"))||(i.includes("delete"))||(i.includes("terminate")))&&((i.includes("service"))||(i.includes("svc")))){
+                ser_name=prompt("Enter name of service you want to delete:")
+                imgname=''
+
+                var xhr5=new XMLHttpRequest();
+                xhr5.open("GET", "http://34.93.183.15/cgi-bin/webapp.py?x="+i+"&"+"y="+ser_name+"&"+"z="+imgname ,true);
+
+                xhr5.send();
+                xhr5.onload= function() {
+                        var output=xhr5.responseText;
+                        document.getElementById("d1").innerHTML=output;
+                }
+
+        }
+
+}
+//show / list
+else if (((i.includes("running"))||(i.includes("current"))||(i.includes("list"))||(i.includes("show")))&&((i.includes("pod"))||(i.includes("po"))||(i.includes("services"))||(i.includes("deploy"))||(i.includes("deployment"))||(i.includes("service"))||(i.includes("svc")))){
+
+        var xhr11=new XMLHttpRequest();
+        xhr11.open("GET", "http://34.93.183.15/cgi-bin/webapp.py?x="+i,true);
+
+        xhr11.send();
+        xhr11.onload= function() {
+                var output=xhr11.responseText;
+                document.getElementById("d1").innerHTML=output;
+        }
+
+}
+
+// Scale,replica
+else if (((i.includes("pod"))||(i.includes("deployment")))&&((i.includes("create replicas"))||(i.includes("create the replica"))||(i.includes("replica"))||(i.includes("scale")))){
+        resource_name=prompt("Enter name of deployment/resource you want to scale:")
+        replica=prompt("Enter the number of replicas to which you want to scale:")
+        var xhr14=new XMLHttpRequest();
+        xhr14.open("GET", "http://34.93.183.15/cgi-bin/webapp.py?x="+i+"&"+"y="+resource_name+"&"+"z="+replica ,true);
+        xhr14.send();
+        xhr14.onload= function() {
+                var output=xhr14.responseText;
+                document.getElementById("d1").innerHTML=output;
+       }
+}
+
+// Expose services on given port number
+else if (((i.includes("expose")))&&((i.includes("svc"))||(i.includes("service"))||(i.includes("deployment")))||(i.includes("deploy"))){
+        sname=prompt("Enter name of service/deployment you want to expose:")
+        port_no=prompt("Enter the port no. on which you want to expose the service:")
+        ser_type=prompt("Enter the service type on which you want to expose port no. (ClusterIP/ExternalIP/NodePort):")
+        var xhr13=new XMLHttpRequest();
+        xhr13.open("GET", "http://34.93.183.15/cgi-bin/webapp.py?x="+i+"&"+"y="+sname+"&"+"z="+port_no+"&"+"c="+ser_type ,true);
+
+        xhr13.send();
+        xhr13.onload= function() {
+                var output=xhr13.responseText;
+                document.getElementById("d1").innerHTML=output;
+        }
+}
+
+/*
+// Scale,replica
+else if (((i.includes("pod"))||(i.includes("deployment")))&&((i.includes("create replicas"))||(i.includes("create the replica"))||(i.includes("replica"))||(i.includes("scale")))){
+        resource_name=prompt("Enter name of deployment/resource you want to scale:")
+        replica=prompt("Enter the number of replicas to which you want to scale:")
+        var xhr14=new XMLHttpRequest();
+        xhr14.open("GET", "http://34.93.183.15/cgi-bin/webapp.py?x="+i+"&"+"y="+resource_name+"&"+"z="+replica ,true);
+        xhr14.send();
+        xhr14.onload= function() {
+                var output=xhr14.responseText;
+                document.getElementById("d1").innerHTML=output;
+       }
+}
+*/
+
+}
+</script>
+<center><h1>WELCOME TO THE WORLD OF KUBERNETES!!</h1></center>
+<h2>Enter Your Requirement:</h2><input id="in1" size="20"/>
+<br />
+
+<pre>
+<b><a><div id="d1"><h3>Output...</h3></div></a></b>
+
+<br/>
+<input type="image" style="width:7%"  onclick="ap()" src="https://ngee-tropics.lbl.gov/wp-content/uploads/sites/16/2017/02/SUBMIT-BUTTON.png" />
+</pre>
